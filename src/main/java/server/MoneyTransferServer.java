@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;

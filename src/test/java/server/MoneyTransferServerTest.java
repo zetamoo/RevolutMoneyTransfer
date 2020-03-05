@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import com.jayway.restassured.RestAssured;
 import org.hamcrest.Matchers;

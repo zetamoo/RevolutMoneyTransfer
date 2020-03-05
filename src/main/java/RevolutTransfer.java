@@ -1,4 +1,4 @@
-import Server.MoneyTransferServer;
+import server.MoneyTransferServer;
 import io.vertx.core.Vertx;
 import org.apache.log4j.BasicConfigurator;
 
