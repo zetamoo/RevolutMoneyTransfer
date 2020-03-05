@@ -27,6 +27,6 @@ Transfer money:
     {
       	"from": "2",
       	"to": "3",
-	      "amount": "0",
+	"amount": "0",
       	"currency": "EUR"
     }
