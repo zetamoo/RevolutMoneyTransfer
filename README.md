@@ -25,8 +25,8 @@ Transfer money:
 
     POST localhost:8080/transfer
     {
-      	"from": "2",
-      	"to": "3",
-	"amount": "0",
-      	"currency": "EUR"
+        "from": "2",
+        "to": "3",
+        "amount": "0",
+        "currency": "EUR"
     }
