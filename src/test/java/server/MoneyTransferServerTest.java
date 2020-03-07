@@ -47,7 +47,7 @@ public class MoneyTransferServerTest {
                 .post("deposit")
                 .then()
                 .assertThat()
-                .statusCode(201);
+                .statusCode(200);
         assertThat(get("user/info?user_id=0")
                 .then().assertThat().statusCode(200).extract().as(HashMap.class).toString()).isEqualTo("{EUR={balance=100}}");
         get("user/info?user_id=1")
@@ -61,7 +61,7 @@ public class MoneyTransferServerTest {
                 .post("transfer")
                 .then()
                 .assertThat()
-                .statusCode(201);
+                .statusCode(200);
         assertThat(get("user/info?user_id=0")
                 .then().assertThat().statusCode(200).extract().as(HashMap.class).toString()).isEqualTo("{EUR={balance=60}}");
         assertThat(get("user/info?user_id=1")

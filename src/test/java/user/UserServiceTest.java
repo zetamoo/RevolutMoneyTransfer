@@ -13,6 +13,7 @@ public class UserServiceTest {
 
     @BeforeClass
     public static void setup() {
+        UserService.clear();
         UserService.createUser();
         UserService.createUser();
         UserService.changeBalanceBy("0", Currency.getInstance("USD"), BigDecimal.valueOf(100));

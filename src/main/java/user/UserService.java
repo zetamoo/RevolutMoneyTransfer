@@ -59,4 +59,8 @@ public class UserService {
         getUser(userId).changeBalanceBy(currency, amount);
     }
 
+    public static void clear() {
+        users.clear();
+        userId = new AtomicLong();
+    }
 }
