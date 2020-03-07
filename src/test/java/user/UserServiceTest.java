@@ -26,19 +26,19 @@ public class UserServiceTest {
         assertThat(UserService.getUserInfo("1")).isEqualTo("{\"USD\":{\"balance\":60}}");
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testZeroAmountTransfer() {
         Transaction transaction = new Transaction("0", "1", BigDecimal.ZERO, Currency.getInstance("USD"));
         UserService.transfer(transaction);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNegativeAmountTransfer() {
         Transaction transaction = new Transaction("0", "1", BigDecimal.ONE.negate(), Currency.getInstance("USD"));
         UserService.transfer(transaction);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidUserTransfer() {
         Transaction transaction = new Transaction("0", "2", BigDecimal.ZERO, Currency.getInstance("USD"));
         UserService.transfer(transaction);

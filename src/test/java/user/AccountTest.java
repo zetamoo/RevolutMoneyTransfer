@@ -26,7 +26,7 @@ public class AccountTest {
         assertEquals(account.balance, BigDecimal.valueOf(90));
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidChangingBalance() {
         assertEquals(account.balance, ZERO);
         account.changeBalanceBy(BigDecimal.valueOf(100));

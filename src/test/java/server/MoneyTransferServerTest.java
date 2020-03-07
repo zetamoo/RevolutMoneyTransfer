@@ -66,6 +66,5 @@ public class MoneyTransferServerTest {
                 .then().assertThat().statusCode(200).extract().as(HashMap.class).toString()).isEqualTo("{EUR={balance=60}}");
         assertThat(get("user/info?user_id=1")
                 .then().assertThat().statusCode(200).extract().as(HashMap.class).toString()).isEqualTo("{EUR={balance=40}}");
-
     }
 }

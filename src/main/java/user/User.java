@@ -6,9 +6,8 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.HashMap;
 
+// This class should contain all the User info. E.g. email, phone number, address, etc.
 public class User {
-    // This class should contain all the User info. E.g. email, phone number, address, etc.
-
     private final HashMap<Currency, Account> accounts = new HashMap<>();
 
     public Account getAccount(Currency currency) {

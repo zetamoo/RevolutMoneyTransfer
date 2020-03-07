@@ -29,16 +29,21 @@ public class MoneyTransferServer extends AbstractVerticle {
 
     private void transfer(RoutingContext routingContext) {
         try {
-            Transaction transaction = new Transaction(
-                    routingContext.getBodyAsJson().getString("from"),
-                    routingContext.getBodyAsJson().getString("to"),
-                    getAmount(routingContext),
-                    getCurrency(routingContext));
-            TransferService.transfer(transaction);
-            routingContext.response()
-                    .setStatusCode(201)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end("Transaction Succeeded");
+            String from = routingContext.getBodyAsJson().getString("from");
+            String to = routingContext.getBodyAsJson().getString("to");
+            BigDecimal amount = getAmount(routingContext);
+            Currency currency = getCurrency(routingContext);
+
+            if (from == null || to == null || currency == null) {
+                routingContext.response().setStatusCode(400).end();
+            } else {
+                Transaction transaction = new Transaction(from, to, amount, currency);
+                TransferService.transfer(transaction);
+                routingContext.response()
+                        .setStatusCode(200)
+                        .putHeader("content-type", "application/json; charset=utf-8")
+                        .end("Transaction Succeeded");
+            }
         } catch (Exception e) {
             routingContext.response().setStatusCode(400).end(e.getMessage());
         }
@@ -61,11 +66,16 @@ public class MoneyTransferServer extends AbstractVerticle {
             String userId = routingContext.getBodyAsJson().getString("user_id");
             BigDecimal amount = getAmount(routingContext);
             Currency currency = getCurrency(routingContext);
-            UserService.changeBalanceBy(userId, currency, amount);
-            routingContext.response()
-                    .setStatusCode(201)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end();
+
+            if (userId == null || currency == null) {
+                routingContext.response().setStatusCode(400).end();
+            } else {
+                UserService.changeBalanceBy(userId, currency, amount);
+                routingContext.response()
+                        .setStatusCode(200)
+                        .putHeader("content-type", "application/json; charset=utf-8")
+                        .end();
+            }
         } catch (Exception e) {
             routingContext.response().setStatusCode(400).end(e.getMessage());
         }
@@ -74,10 +84,15 @@ public class MoneyTransferServer extends AbstractVerticle {
     private void userInfo(RoutingContext routingContext) {
         try {
             String userId = routingContext.request().getParam("user_id");
-            routingContext.response()
-                    .setStatusCode(200)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(UserService.getUserInfo(userId));
+
+            if (userId == null) {
+                routingContext.response().setStatusCode(400).end();
+            } else {
+                routingContext.response()
+                        .setStatusCode(200)
+                        .putHeader("content-type", "application/json; charset=utf-8")
+                        .end(UserService.getUserInfo(userId));
+            }
         } catch (Exception e) {
             routingContext.response().setStatusCode(400).end(e.getMessage());
         }
@@ -88,6 +103,6 @@ public class MoneyTransferServer extends AbstractVerticle {
     }
 
     private static BigDecimal getAmount(RoutingContext routingContext) {
-        return new BigDecimal(routingContext.getBodyAsJson().getString("amount"));
+        return new BigDecimal(routingContext.getBodyAsJson().getString("amount", "0"));
     }
 }

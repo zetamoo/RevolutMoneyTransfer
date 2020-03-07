@@ -13,21 +13,29 @@ public class UserService {
     // TODO: Convert to a NoSQL database.
     private static HashMap<String, User> users = new HashMap<>();
 
-    // TODO: User email could be used as the userId instead.
+    // TODO: User email could be used as the unique userId instead.
     private static AtomicLong userId = new AtomicLong();
 
     public static void transfer(Transaction transaction) {
         Currency currency = transaction.getCurrency();
         BigDecimal amount = transaction.getAmount();
 
-        if (amount.compareTo(ZERO) <= 0)
+        if (amount.compareTo(ZERO) <= 0) {
+            // TODO: Create custom Exceptions.
             throw new IllegalArgumentException("Transferred amount must be positive.");
+        }
 
-        //TODO: Add locks.
+        // TODO: Add locks.
         User fromUser = getUser(transaction.getFromId());
         User toUser = getUser(transaction.getToId());
         fromUser.changeBalanceBy(currency, amount.negate());
-        toUser.changeBalanceBy(currency, amount);
+        try {
+            toUser.changeBalanceBy(currency, amount);
+        } catch (Exception e) {
+            fromUser.changeBalanceBy(currency, amount);
+            // TODO: Create custom Exceptions.
+            throw new IllegalArgumentException("Unable to complete transaction.");
+        }
     }
 
     private static User getUser(String id) {
